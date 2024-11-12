@@ -23,8 +23,8 @@ public class RecordatorioControlador {
     @Autowired
     UsuarioServicio usuarioServicio;
 
-    @GetMapping("/usuario/{idUsuario}")
-    public List<Recordatorio> obtenerRecordatoriosPorUsuario(@PathVariable int idUsuario) {
+    @GetMapping("/usuarios")
+    public List<Recordatorio> obtenerRecordatoriosPorUsuario(@RequestBody int idUsuario) {
         Usuario usuario = usuarioServicio.consultarUsuarioPorId(idUsuario);
         return recordatorioServicio.obtenerRecordatoriosPorUsuario(usuario);
     }

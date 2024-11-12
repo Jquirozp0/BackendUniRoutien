@@ -30,4 +30,7 @@ public class UsuarioServicio {
     public int generarId(){
         return (int) (Math.random()*10000);
     }
+    public Usuario consultarUsuarioPorCorreo(String correo) { return usuarioRepositorio.findByCorreo(correo);
+    }
+
 }

@@ -24,8 +24,8 @@ public class EventoControlador {
     UsuarioServicio usuarioServicio;
 
     // End point para obtener todos los eventos por usuario
-    @GetMapping("/usuario/{idUsuario}")
-    public List<Evento> obtenerEventosPorUsuario(@PathVariable int idUsuario) {
+    @PostMapping("/usuario")
+    public List<Evento> obtenerEventosPorUsuario(@RequestBody int idUsuario) {
         Usuario usuario = usuarioServicio.consultarUsuarioPorId(idUsuario);
         usuario.setId_usuario(idUsuario);
         return eventoServicio.obtenerEventosPorUsuarioOrdenadosPorPrioridad(usuario);
@@ -47,8 +47,8 @@ public class EventoControlador {
         }
     }
     // End point para eliminar una evento
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> eliminarEvento(@PathVariable int id) {
+    @PostMapping("/eliminar")
+    public ResponseEntity<Void> eliminarEvento(@RequestBody int id) {
         eventoServicio.eliminarEvento(id);
         return ResponseEntity.noContent().build();
     }

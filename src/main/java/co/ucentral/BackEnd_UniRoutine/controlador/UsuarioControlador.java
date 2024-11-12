@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class UsuarioControlador {
     UsuarioServicio usuarioServicio;
 
     // End point para obtener todos los usuarios
-    @GetMapping("/listarUsuarios")
+    @PostMapping("/listarUsuarios")
     public ResponseEntity<List<Usuario>> obtenerUsuarios() {
         Iterable<Usuario> usuarios = usuarioServicio.consultarUsuarios();
         return ResponseEntity.ok((List<Usuario>) usuarios);
@@ -39,9 +40,23 @@ public class UsuarioControlador {
         }
     }
     // End point para eliminar usuario
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> eliminarUsuario(@PathVariable int id) {
+    @PostMapping("/eliminar")
+    public ResponseEntity<Void> eliminarUsuario(@RequestBody int id) {
         usuarioServicio.eliminarUsuario(id);
         return ResponseEntity.noContent().build();
     }
+    // End point para validar si usuario existe en la base de datos
+    @PostMapping("/validar")
+    public ResponseEntity<Boolean> validarUsuario(@RequestBody Map<String, String> datos) {
+        String correo = datos.get("correo");
+        String contrasena = datos.get("contrasena");
+
+        Usuario usuario = usuarioServicio.consultarUsuarioPorCorreo(correo);
+        if (usuario != null && usuario.getContrasena().equals(contrasena)) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
+    }
+
 }

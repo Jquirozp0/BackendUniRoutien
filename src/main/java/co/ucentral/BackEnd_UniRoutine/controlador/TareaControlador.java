@@ -23,8 +23,8 @@ public class TareaControlador {
     UsuarioServicio usuarioServicio;
 
     // End point para obtener todas las tareas por usuario
-    @GetMapping("/usuario/{idUsuario}")
-    public List<Tarea> obtenerTareasPorUsuario(@PathVariable int idUsuario) {
+    @PostMapping("/usuario")
+    public List<Tarea> obtenerTareasPorUsuario(@RequestBody int idUsuario) {
         Usuario usuario = usuarioServicio.consultarUsuarioPorId(idUsuario);
         usuario.setId_usuario(idUsuario);
         return tareaServicio.obtenerTareasPorUsuarioOrdenadasPorPrioridad(usuario);
@@ -47,8 +47,8 @@ public class TareaControlador {
     }
 
     // End point para eliminar una tarea
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> eliminarTarea(@PathVariable int id) {
+    @PostMapping("/eliminar")
+    public ResponseEntity<Void> eliminarTarea(@RequestBody int id) {
         tareaServicio.eliminarTarea(id);
         return ResponseEntity.noContent().build();
     }
