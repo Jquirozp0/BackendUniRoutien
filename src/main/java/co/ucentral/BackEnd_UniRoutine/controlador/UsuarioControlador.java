@@ -49,7 +49,8 @@ public class UsuarioControlador {
     }
     // End point para validar si usuario existe en la base de datos
     @PostMapping("/validar")
-    public ResponseEntity<String> login(@RequestBody Login login) {
-        return usuarioServicio.validarLogin(login.getCorreo(), login.getContrasena())? ResponseEntity.ok("Login exitoso"): ResponseEntity.badRequest().body("Usuario o contraseña incorrectos");
+    public ResponseEntity<Usuario> login(@RequestBody Login login) {
+        Usuario usuario = usuarioServicio.validarLogin(login.getCorreo(), login.getContrasena());
+        return usuario!= null ? ResponseEntity.ok(usuario) : ResponseEntity.badRequest().body(null);
     }
 }

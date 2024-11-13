@@ -33,15 +33,14 @@ public class UsuarioServicio {
     public int generarId(){
         return (int) (Math.random()*10000);
     }
-    public Boolean validarLogin(String correo, String contrasena){
-            Boolean isValid = false;
+    public Usuario validarLogin(String correo, String contrasena){
             Usuario usuario = usuarioRepositorio.findByCorreo(correo).orElse(null);
             if(usuario != null){
                 if(usuario.getContrasena().equals(contrasena)){
-                    isValid = true;
+                    return usuario;
                 }
             }
-            return isValid;
+            return null;
     }
 
 }
