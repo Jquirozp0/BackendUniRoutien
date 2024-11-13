@@ -52,5 +52,6 @@ public class UsuarioControlador {
     public ResponseEntity<Usuario> login(@RequestBody Login login) {
         Usuario usuario = usuarioServicio.validarLogin(login.getCorreo(), login.getContrasena());
         return usuario!= null ? ResponseEntity.ok(usuario) : ResponseEntity.badRequest().body(null);
+        
     }
 }
