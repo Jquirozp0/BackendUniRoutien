@@ -18,9 +18,13 @@ import java.util.List;
 public class Usuario {
     @Id
     private int id_usuario;
+    @Column(name = "nombre")
     private String nombre;
+    @Column(name = "correo")
     private String correo;
+    @Column(name = "contrasena")
     private String contrasena;
+    @Column(name = "preferencias")
     private String preferencias;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)

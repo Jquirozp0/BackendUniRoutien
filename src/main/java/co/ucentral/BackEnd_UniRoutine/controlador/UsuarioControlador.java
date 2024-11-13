@@ -1,5 +1,6 @@
 package co.ucentral.BackEnd_UniRoutine.controlador;
 
+import co.ucentral.BackEnd_UniRoutine.persistencia.entidades.Login;
 import co.ucentral.BackEnd_UniRoutine.persistencia.entidades.Tarea;
 import co.ucentral.BackEnd_UniRoutine.persistencia.entidades.Usuario;
 import co.ucentral.BackEnd_UniRoutine.servicios.UsuarioServicio;
@@ -47,16 +48,7 @@ public class UsuarioControlador {
     }
     // End point para validar si usuario existe en la base de datos
     @PostMapping("/validar")
-    public ResponseEntity<Boolean> validarUsuario(@RequestBody Map<String, String> datos) {
-        String correo = datos.get("correo");
-        String contrasena = datos.get("contrasena");
-
-        Usuario usuario = usuarioServicio.consultarUsuarioPorCorreo(correo);
-        if (usuario != null && usuario.getContrasena().equals(contrasena)) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.ok(false);
-        }
+    public ResponseEntity<String> login(@RequestBody Login login) {
+        return usuarioServicio.validarLogin(login.getCorreo(), login.getContrasena())? ResponseEntity.ok("Login exitoso"): ResponseEntity.badRequest().body("Usuario o contraseña incorrectos");
     }
-
 }

@@ -5,6 +5,9 @@ import co.ucentral.BackEnd_UniRoutine.persistencia.repositorios.UsuarioRepositor
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class UsuarioServicio {
@@ -30,7 +33,15 @@ public class UsuarioServicio {
     public int generarId(){
         return (int) (Math.random()*10000);
     }
-    public Usuario consultarUsuarioPorCorreo(String correo) { return usuarioRepositorio.findByCorreo(correo);
+    public Boolean validarLogin(String correo, String contrasena){
+            Boolean isValid = false;
+            Usuario usuario = usuarioRepositorio.findByCorreo(correo).orElse(null);
+            if(usuario != null){
+                if(usuario.getContrasena().equals(contrasena)){
+                    isValid = true;
+                }
+            }
+            return isValid;
     }
 
 }
