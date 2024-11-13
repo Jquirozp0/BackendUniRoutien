@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/tareas")
 public class TareaControlador {
     @Autowired

@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/recordatorios")
 public class RecordatorioControlador {
     @Autowired
