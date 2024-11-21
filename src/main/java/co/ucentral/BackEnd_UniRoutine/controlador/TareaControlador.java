@@ -42,6 +42,7 @@ public class TareaControlador {
             return ResponseEntity.ok("Tarea actualizado con éxito: " + tarea.getId_tarea());
         }else {
             tarea.setId_tarea(usuarioServicio.generarId());
+            tarea.setFechaCreacion(LocalDateTime.now());
             tareaServicio.guardarTarea(tarea);
             return ResponseEntity.ok("Tarea creada con éxito: " + tarea.getId_tarea());
         }
