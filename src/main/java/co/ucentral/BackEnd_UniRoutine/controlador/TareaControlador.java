@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -25,7 +26,8 @@ public class TareaControlador {
 
     // End point para obtener todas las tareas por usuario
     @PostMapping("/usuario")
-    public List<Tarea> obtenerTareasPorUsuario(@RequestBody int idUsuario) {
+    public List<Tarea> obtenerTareasPorUsuario(@RequestBody Map<String, Integer> payload) {
+        int idUsuario = payload.get("idUsuario");
         Usuario usuario = usuarioServicio.consultarUsuarioPorId(idUsuario);
         usuario.setId_usuario(idUsuario);
         return tareaServicio.obtenerTareasPorUsuarioOrdenadasPorPrioridad(usuario);
@@ -50,8 +52,9 @@ public class TareaControlador {
 
     // End point para eliminar una tarea
     @PostMapping("/eliminar")
-    public ResponseEntity<Void> eliminarTarea(@RequestBody int id) {
-        tareaServicio.eliminarTarea(id);
+    public ResponseEntity<Void> eliminarTarea(@RequestBody Tarea tareaRequest) {
+        tareaServicio.eliminarTarea(tareaRequest.getId_tarea());
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -26,7 +27,8 @@ public class EventoControlador {
 
     // End point para obtener todos los eventos por usuario
     @PostMapping("/usuario")
-    public List<Evento> obtenerEventosPorUsuario(@RequestBody int idUsuario) {
+    public List<Evento> obtenerEventosPorUsuario(@RequestBody Map<String, Integer> payload) {
+        int idUsuario = payload.get("idUsuario");
         Usuario usuario = usuarioServicio.consultarUsuarioPorId(idUsuario);
         usuario.setId_usuario(idUsuario);
         return eventoServicio.obtenerEventosPorUsuarioOrdenadosPorPrioridad(usuario);
@@ -43,14 +45,15 @@ public class EventoControlador {
             return ResponseEntity.ok("Evento actualizado con éxito: " + evento.getId_evento());
         }else {
             evento.setId_evento(usuarioServicio.generarId());
+            evento.setFechaCreacion(LocalDateTime.now());
             eventoServicio.guardarEvento(evento);
             return ResponseEntity.ok("Evento creada con éxito: " + evento.getId_evento());
         }
     }
     // End point para eliminar una evento
     @PostMapping("/eliminar")
-    public ResponseEntity<Void> eliminarEvento(@RequestBody int id) {
-        eventoServicio.eliminarEvento(id);
+    public ResponseEntity<Void> eliminarEvento(@RequestBody Evento eventoRequest) {
+        eventoServicio.eliminarEvento(eventoRequest.getId_evento());
         return ResponseEntity.noContent().build();
     }
 }
